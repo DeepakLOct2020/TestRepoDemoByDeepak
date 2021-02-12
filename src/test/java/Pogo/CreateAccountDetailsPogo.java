@@ -10,6 +10,12 @@ public class CreateAccountDetailsPogo  {
 	private String Month;
 	private String year;
 	private String company;
+	private String address1;
+	private String city;
+	private String state;
+	private String postcode; 
+	private String mNumber;
+	private String addressAlias;
 	
 	public boolean isMale() {
 		return isMale;
@@ -95,13 +101,4 @@ public class CreateAccountDetailsPogo  {
 	public void setAddressAlias(String addressAlias) {
 		this.addressAlias = addressAlias;
 	}
-	private String address1;
-	private String city;
-	private String state;
-	private String postcode; 
-	private String mNumber;
-	private String addressAlias;
-
-	
-	
 }
