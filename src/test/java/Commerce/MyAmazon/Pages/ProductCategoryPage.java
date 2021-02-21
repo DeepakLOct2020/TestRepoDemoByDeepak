@@ -12,17 +12,26 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import Commerce.MyAmazon.BaseClass.PreDefinedActions;
 import ExceptionHandeling.ProductNotFoundException;
+import Util.PropertiesFileReader;
 
 public class ProductCategoryPage extends PreDefinedActions {
+	
+	PropertiesFileReader categoryPage;
+	
+	public ProductCategoryPage() {
+		
+		categoryPage = new PropertiesFileReader(".\\src\\test\\java\\property\\ProductCategoryPageProperties.properties");
+	}
 	
 	public List<WebElement> getProductList() {
 		
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		
 		JavascriptExecutor js = (JavascriptExecutor)driver;
-		js.executeScript("arguments[0].scrollIntoView();", driver.findElement(By.xpath("//ul[@id='homefeatured']//li//img")));
+		js.executeScript("arguments[0].scrollIntoView();", driver.findElement(By.cssSelector(categoryPage.getValue("listOfProducts"))));
 		
-		List<WebElement> productList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//ul[@id='homefeatured']//li//img")));
+		List<WebElement> productList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(categoryPage.getValue("listOfProducts"))));
+		
 		return productList;
 	}
 

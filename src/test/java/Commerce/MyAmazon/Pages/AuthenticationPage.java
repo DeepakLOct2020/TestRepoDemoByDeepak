@@ -7,21 +7,29 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import Commerce.MyAmazon.BaseClass.PreDefinedActions;
+import Util.PropertiesFileReader;
 
 public class AuthenticationPage extends PreDefinedActions {
+	
+	PropertiesFileReader authPage;
+	
+	public AuthenticationPage(){
+		
+		authPage = new PropertiesFileReader(".\\src\\test\\java\\property\\AuthenticationPageProperties.properties");		
+	}
 	
 	public void enterEmailAddress(String emailAddress) {
 		
 		WebDriverWait wait = new WebDriverWait(driver,10);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='email_create']"))).sendKeys(emailAddress);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(authPage.getValue("createAccountEmail")))).sendKeys(emailAddress);
 		System.out.println("Enter a email address to create an account with the same email address");
 	}
 	
 	public CreateAccountPage clickOnCreateAccount() {
 		
 		WebDriverWait wait = new WebDriverWait(driver,10);
-		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='SubmitCreate']"))).click();
-		driver.findElement(By.xpath("//button[@id='SubmitCreate']")).click();
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath(authPage.getValue("createAnAccountButton")))).click();
+		driver.findElement(By.xpath(authPage.getValue("createAnAccountButton"))).click();
 		System.out.println("Clicked on submit button");
 		return new CreateAccountPage();
 	}
@@ -29,45 +37,49 @@ public class AuthenticationPage extends PreDefinedActions {
 	public boolean isAuthenticationHeaderVisible() {
 		
 		WebDriverWait wait = new WebDriverWait(driver,5);
-		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[text()='Authentication']")));
+		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(authPage.getValue("authenticationHeader"))));
 		return element.isDisplayed();
-		
 	}
 	
 	public MyProfilePage doLogin(String emailAddress, String password) throws IOException {
+		
+		AuthenticationPage authenticationPage = new AuthenticationPage();
+		
+		authenticationPage.enterEmailAddressSignIn(emailAddress);
+		authenticationPage.enterPasswordSignIn(password);
+		authenticationPage.clickOnSignIn();
 
-		enterEmailAddressSignIn(emailAddress);
-		enterPasswordSignIn(password);
-		clickOnSignIn();
+		//enterEmailAddressSignIn(emailAddress);
+		//enterPasswordSignIn(password);
+		//clickOnSignIn();
 
 		return new MyProfilePage();
 	}
 
-	public static void enterEmailAddressSignIn(String emailAddress) {
+	public void enterEmailAddressSignIn(String emailAddress) {
 
 		WebDriverWait wait = new WebDriverWait(driver,5);
-		WebElement emailTxtBox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("email")));
+		WebElement emailTxtBox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(authPage.getValue("loginEmail"))));
 		emailTxtBox.sendKeys(emailAddress);
-
 	}
 
-	public static void enterPasswordSignIn(String password) {
+	public void enterPasswordSignIn(String password) {
 
 		WebDriverWait wait = new WebDriverWait(driver,5);
-		WebElement passwordTxtBox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("passwd")));
+		WebElement passwordTxtBox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(authPage.getValue("loginPassword"))));
 		passwordTxtBox.sendKeys(password);
 	}
 
-	public static void clickOnSignIn() {
+	public void clickOnSignIn() {
 
 		WebDriverWait wait = new WebDriverWait(driver,5);
-		wait.until(ExpectedConditions.elementToBeClickable(By.id("SubmitLogin"))).click();
+		wait.until(ExpectedConditions.elementToBeClickable(By.id(authPage.getValue("signInButton")))).click();
 	}
 
-	public String getAuthenticationFailedErrorMesssage() {
+	public String getErrorMesssage() {
 
 		WebDriverWait wait = new WebDriverWait(driver,5);
-		WebElement errorText = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".alert.alert-danger>ol>li")));
+		WebElement errorText = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(authPage.getValue("createAccountErrorMessage"))));
 		return errorText.getText();
 	}
 }
