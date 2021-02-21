@@ -45,7 +45,6 @@ public class OrderPlacement extends TestBase {
 		
 		System.out.println("Product List Size:"+ productList.size());
 		
-		
 		System.out.println("Got the product list");
 		
 		//Step: Click on first visible product

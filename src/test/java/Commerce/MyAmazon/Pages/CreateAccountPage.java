@@ -11,24 +11,31 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import Commerce.MyAmazon.BaseClass.PreDefinedActions;
 import Pogo.CreateAccountDetailsPogo;
+import Util.PropertiesFileReader;
 
 public class CreateAccountPage extends PreDefinedActions {
 	
+	 PropertiesFileReader CreateAccountPage;
+	 
+	 public CreateAccountPage() {
+		 
+		 CreateAccountPage = new PropertiesFileReader(".\\src\\test\\java\\property\\CreateAccountPageProperties.properties");
+	 }
 	
 	public void selectGender(boolean isMale) throws InterruptedException {
 		
 		WebDriverWait wait  = new WebDriverWait(driver, 10);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#customer_firstname")));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(CreateAccountPage.getValue("customerFirstNameTxtBox"))));
 		Thread.sleep(1000);
 		//Step: Select Mr. as title
 		System.out.println("Step: Select title");
 		if(isMale) {
 			Thread.sleep(10000);
-			WebElement gender = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#id_gender1")));
+			WebElement gender = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(CreateAccountPage.getValue("genderMale"))));
 			gender.click();
 		}
 		else {
-			WebElement gender = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#id_gender2")));
+			WebElement gender = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(CreateAccountPage.getValue("genderFemale"))));
 			gender.click();
 		}
 		
@@ -38,7 +45,7 @@ public class CreateAccountPage extends PreDefinedActions {
 		
 		System.out.println("Step: Enter first name");
 		if(firstName != null) {
-			driver.findElement(By.id("customer_firstname")).sendKeys(firstName);
+			driver.findElement(By.cssSelector(CreateAccountPage.getValue("customerFirstNameTxtBox"))).sendKeys(firstName);
 		}
 		else
 			System.out.println("First Name field is blank");
@@ -48,7 +55,7 @@ public class CreateAccountPage extends PreDefinedActions {
 		
 		System.out.println("Step: Enter last name");
 		if(lastName != null) {
-			driver.findElement(By.id("customer_lastname")).sendKeys(lastName);
+			driver.findElement(By.cssSelector(CreateAccountPage.getValue("customerLastNameTxtBox"))).sendKeys(lastName);
 		}
 		else
 			System.out.println("Last Name field is blank");
@@ -58,7 +65,7 @@ public class CreateAccountPage extends PreDefinedActions {
 		
 		System.out.println("Step: Enter password");
 		if(password != null) {
-			driver.findElement(By.id("passwd")).sendKeys(password);	
+			driver.findElement(By.cssSelector(CreateAccountPage.getValue("passwordTxtBox"))).sendKeys(password);	
 		}
 		else
 			System.out.println("Password field is empty");
@@ -70,7 +77,7 @@ public class CreateAccountPage extends PreDefinedActions {
 		System.out.println("Step: Select birth day");
 		if(day != null) {
 			WebDriverWait wait = new WebDriverWait(driver, 10);
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("uniform-days"))).click();
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(CreateAccountPage.getValue("days")))).click();
 			Select s = new Select(driver.findElement(By.id("days")));
 			s.selectByValue(day);
 			System.out.println("Birth date selected from drop-down");
@@ -83,7 +90,7 @@ public class CreateAccountPage extends PreDefinedActions {
 		
 		System.out.println("Step: Select birth year");
 		if(month != null) {
-			Select s = new Select(driver.findElement(By.id("months")));
+			Select s = new Select(driver.findElement(By.id(CreateAccountPage.getValue("month"))));
 			s.selectByVisibleText(month+" ");
 			System.out.println("Birth month selected from drop-down");
 		}
@@ -95,7 +102,7 @@ public class CreateAccountPage extends PreDefinedActions {
 		
 		System.out.println("Step: Select birth year");
 		if(year != null) {
-			Select s = new Select(driver.findElement(By.id("years")));
+			Select s = new Select(driver.findElement(By.id(CreateAccountPage.getValue("year"))));
 			s.selectByValue(year);
 			System.out.println("Birth year selected from drop-down");
 		}
@@ -107,7 +114,7 @@ public class CreateAccountPage extends PreDefinedActions {
 		
 		System.out.println("Step: Enter Company name");
 		if(companyName != null) {
-			driver.findElement(By.id("company")).sendKeys(companyName);
+			driver.findElement(By.cssSelector(CreateAccountPage.getValue("companyName"))).sendKeys(companyName);
 		}
 		else
 			System.out.println("Company field is empty");	
@@ -117,7 +124,7 @@ public class CreateAccountPage extends PreDefinedActions {
 		
 		System.out.println("Step: Enter address");
 		if(address != null) {
-			driver.findElement(By.id("address1")).sendKeys(address);
+			driver.findElement(By.cssSelector(CreateAccountPage.getValue("address1"))).sendKeys(address);
 		}
 		else
 			System.out.println("Address field is empty");
@@ -127,7 +134,7 @@ public class CreateAccountPage extends PreDefinedActions {
 		
 		System.out.println("Step: Enter city");
 		if(city != null) {
-			driver.findElement(By.id("city")).sendKeys(city);
+			driver.findElement(By.cssSelector(CreateAccountPage.getValue("city"))).sendKeys(city);
 		}
 		else
 			System.out.println("City field is empty");
@@ -138,7 +145,7 @@ public class CreateAccountPage extends PreDefinedActions {
 		System.out.println("Step: Select state");
 		if(state != null) {
 			WebDriverWait wait = new WebDriverWait(driver, 10);
-			WebElement elementState = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@id='id_state']")));
+			WebElement elementState = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(CreateAccountPage.getValue("state"))));
 			Select s = new Select(elementState);
 			s.selectByVisibleText(state);
 			System.out.println("State is selected");
@@ -151,7 +158,7 @@ public class CreateAccountPage extends PreDefinedActions {
 		
 		System.out.println("Step: Enter post code");
 		if(postalCode != null) {
-			driver.findElement(By.id("postcode")).sendKeys(postalCode);
+			driver.findElement(By.cssSelector(CreateAccountPage.getValue("postcode"))).sendKeys(postalCode);
 		}
 		else
 			System.out.println("Postal code field is empty");	
@@ -161,7 +168,7 @@ public class CreateAccountPage extends PreDefinedActions {
 		
 		System.out.println("Step: Enter mobile number");
 		if(mobileNumber != null) {
-			driver.findElement(By.id("phone_mobile")).sendKeys(mobileNumber);
+			driver.findElement(By.cssSelector(CreateAccountPage.getValue("mobileNumber"))).sendKeys(mobileNumber);
 		}
 		else
 			System.out.println("Mobile number field is empty");
@@ -171,7 +178,7 @@ public class CreateAccountPage extends PreDefinedActions {
 		
 		System.out.println("Enter Address alias");
 		if(addressAlias != null) {
-			driver.findElement(By.id("alias")).sendKeys(addressAlias);
+			driver.findElement(By.cssSelector(CreateAccountPage.getValue("addressAlias"))).sendKeys(addressAlias);
 		}
 		else
 			System.out.println("Address alias field is empty");
@@ -181,7 +188,7 @@ public class CreateAccountPage extends PreDefinedActions {
 	public boolean isPageHeadingTextDisplayed() {
 		
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		return wait.until(ExpectedConditions.textToBe(By.cssSelector("#noSlide h1"), "CREATE AN ACCOUNT"));
+		return wait.until(ExpectedConditions.textToBe(By.cssSelector(CreateAccountPage.getValue("createAccountHeadingTxt")), "CREATE AN ACCOUNT"));
 	}
 	
 	public void enterCreateAccountDetails(CreateAccountDetailsPogo createAccountDetailsPogo) throws InterruptedException {
@@ -233,17 +240,17 @@ public class CreateAccountPage extends PreDefinedActions {
 	
 	public MyProfilePage clickOnRegister() {
 		
-		driver.findElement(By.id("submitAccount")).click();
+		driver.findElement(By.id(CreateAccountPage.getValue("registerBtn"))).click();
 		System.out.println("Clicked on Registration button");
 		return new MyProfilePage();
 	}
 
 	public List<String> getErrorMessages() {
 		
-		java.util.List<WebElement> listOfErrors = driver.findElements(By.xpath("//ol//li"));
+		java.util.List<WebElement> listOfErrors = driver.findElements(By.xpath(CreateAccountPage.getValue("errorMessagesList")));
 		
 		java.util.List<String> errorTextList = new ArrayList<String>();
-		String totalErrorCount = driver.findElement(By.cssSelector(".alert.alert-danger>p")).getText();
+		String totalErrorCount = driver.findElement(By.cssSelector(CreateAccountPage.getValue("errorCount"))).getText();
 		errorTextList.add(totalErrorCount);
 		
 		for(WebElement list : listOfErrors) {

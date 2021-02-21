@@ -61,7 +61,7 @@ public class LoginTest extends TestBase {
 
 		//Step: Get the error messages 
 		String expErrorMessage = expErrorMsg;
-		String actualMessag = authenticationPage.getAuthenticationFailedErrorMesssage();
+		String actualMessag = authenticationPage.getErrorMesssage();
 
 		//Verify: expected error message and actual message are same
 		Assert.assertEquals(actualMessag, expErrorMessage);
